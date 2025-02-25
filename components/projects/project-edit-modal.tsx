@@ -20,7 +20,7 @@ import { editProject } from "@/actions/projects";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import { Project } from "./projects-table";
   
-  const ProductEditModal = ({ open, setOpen, categories, project }: {
+  const ProjectEditModal = ({ open, setOpen, categories, project }: {
     open: boolean,
     setOpen: (value: boolean) => void,
     categories: Category[] | undefined,
@@ -111,4 +111,4 @@ import { Project } from "./projects-table";
     );
   }
   
-  export default ProductEditModal
+  export default ProjectEditModal

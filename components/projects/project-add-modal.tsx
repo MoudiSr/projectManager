@@ -21,7 +21,7 @@ import {
 import { addProject } from "@/actions/projects";
 import { CalendarDate, getLocalTimeZone, parseDate, today } from "@internationalized/date";
   
-  const ProductAddModal = ({ open, setOpen, categories }: {
+  const ProjectAddModal = ({ open, setOpen, categories }: {
     open: boolean,
     setOpen: (value: boolean) => void,
     categories: Category[]
@@ -97,4 +97,4 @@ import { CalendarDate, getLocalTimeZone, parseDate, today } from "@international
     );
   }
   
-  export default ProductAddModal
+  export default ProjectAddModal

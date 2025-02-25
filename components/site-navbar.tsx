@@ -82,18 +82,6 @@ const SiteNavbar = () => {
                 <Separator orientation="vertical" className="mr-3 h-4"/>
                 <p className="title text-xl">Project Management</p>
             </NavbarBrand>
-            {/* <NavbarContent justify="end" className="flex sm:hidden">
-                <Switch
-                    defaultSelected
-                    color="secondary"
-                    size="sm"
-                    thumbIcon={({ isSelected, className }) =>
-                        isSelected ? <SunIcon className={className} /> : <MoonIcon className={className} />
-                    }
-                >
-                </Switch>
-                <NavbarMenuToggle aria-label={isMenuOpen ? "Close Menu" : "Open Menu"} />
-            </NavbarContent> */}
 
             <NavbarContent justify="end" className="flex">
                 <Switch defaultSelected
@@ -103,28 +91,7 @@ const SiteNavbar = () => {
                     startContent={<SunIcon />}
                     onChange={() => setTheme(theme == "dark" ? "light" : "dark")}
                 ></Switch>
-                {/* <NavbarItem isActive={pathname === "/"}>
-                    <Link href="/" color={pathname === "/" ? "primary" : "foreground"}>Dashboard</Link>
-                </NavbarItem>
-                <NavbarItem isActive={pathname === "/projects"}>
-                    <Link href="/projects" color={pathname === "/projects" ? "primary" : "foreground"}>Projects</Link>
-                </NavbarItem>
-                <NavbarItem isActive={pathname === "/categories"}>
-                    <Link href="/categories" color={pathname === "/categories" ? "primary" : "foreground"}>Categories</Link>
-                </NavbarItem> */}
             </NavbarContent>
-                    
-            {/* <NavbarMenu>
-                <NavbarMenuItem isActive={pathname === "/"}>
-                    <Link href="/" onPress={() => setIsMenuOpen(false)} color={pathname === "/" ? "primary" : "foreground"}>Dashboard</Link>
-                </NavbarMenuItem>
-                <NavbarMenuItem isActive={pathname === "/projects"}>
-                    <Link href="/projects" onPress={() => setIsMenuOpen(false)} color={pathname === "/projects" ? "primary" : "foreground"}>Products</Link>
-                </NavbarMenuItem>
-                <NavbarMenuItem isActive={pathname === "/categories"}>
-                    <Link href="/categories" onPress={() => setIsMenuOpen(false)} color={pathname === "/categories" ? "primary" : "foreground"}>Categories</Link>
-                </NavbarMenuItem>
-            </NavbarMenu> */}
         </Navbar>
     )
 }

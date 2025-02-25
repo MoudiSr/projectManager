@@ -30,7 +30,7 @@ const CategoriesTable = ({ items = [], projects = [] }: {
 
     const columns: Column[] = [
         { key: "name", label: "Category", isSortable: false },
-        { key: "numOfItems", label: "Number Of Products", isSortable: true },
+        { key: "numOfItems", label: "Number Of Projects", isSortable: true },
         { key: "id", label: "Actions", isSortable: false }
     ];
 

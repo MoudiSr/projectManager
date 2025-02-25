@@ -1,6 +1,6 @@
 import { getCategories } from "@/actions/categories"
 import { getProjects } from "@/actions/projects"
-import ProductsTable from "@/components/projects/projects-table"
+import ProjectsTable from "@/components/projects/projects-table"
 
 const Page = async () => {
     const { projects } = await getProjects()
@@ -8,7 +8,7 @@ const Page = async () => {
 
     return (
         <>
-            <ProductsTable items={projects} categories={categories} />
+            <ProjectsTable items={projects} categories={categories} />
         </>
     )
 }

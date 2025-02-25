@@ -3,7 +3,7 @@ import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, getKey
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FolderPlus, Search, Trash2, Eye, PenLine } from "lucide-react";
 import { Category } from "@/components/categories/categories-table";
-import ProductAddModal from "./project-add-modal";
+import ProjectAddModal from "./project-add-modal";
 import { Separator } from "../ui/separator";
 
 
@@ -40,7 +40,7 @@ interface SortDescriptor {
     direction: "ascending" | "descending";
 }
 
-const ProductsTable = ({ items = [], categories = [] }: {
+const ProjectsTable = ({ items = [], categories = [] }: {
     items?: Project[],
     categories?: Category[]
 }) => {
@@ -166,9 +166,9 @@ const ProductsTable = ({ items = [], categories = [] }: {
                     )}
                 </TableBody>
             </Table>
-            <ProductAddModal open={addOpen} setOpen={setAddOpen} categories={categories} />
+            <ProjectAddModal open={addOpen} setOpen={setAddOpen} categories={categories} />
         </div>
     );
 };
 
-export default ProductsTable;
+export default ProjectsTable;
