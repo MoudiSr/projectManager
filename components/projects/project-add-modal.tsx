@@ -39,13 +39,6 @@ const ProjectAddModal = ({ open, setOpen, categories }: {
     setOpen(false)
     setAlert(false)
     onOpenChange()
-    addToast({
-      title: "Project: " + name,
-      description: "Added successfully!!",
-      color: "success",
-      timeout: 3000,
-      shouldShowTimeoutProgess: true
-    })
     setName("")
     setDescription("")
     setCategory(undefined)
@@ -63,6 +56,13 @@ const ProjectAddModal = ({ open, setOpen, categories }: {
     if (name.replaceAll(" ", "") !== "" && description.replaceAll(" ", "") !== "" && category !== undefined && dateRange !== null) {
       setIsLoading(true)
       const project = await addProject(name, description, category, dateRange?.start.toString(), dateRange?.end.toString())
+      addToast({
+        title: "Project: " + name,
+        description: "Added successfully!!",
+        color: "success",
+        timeout: 3000,
+        shouldShowTimeoutProgess: true
+      })
       handleClose()
     } else {
       setAlert(true)

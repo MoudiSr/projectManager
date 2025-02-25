@@ -32,18 +32,18 @@ const CategoryDeleteModal = ({ open, setOpen, category }: {
         setIsLoading(false)
         setOpen(false)
         onOpenChange()
-        addToast({
-            title: "Category: "+category?.name,
-            description: "Delete successfully!!",
-            color: "danger",
-            timeout: 3000,
-            shouldShowTimeoutProgess: true
-        })
     }
 
     const handleSubmit = async () => {
         setIsLoading(true)
         const result = await deleteCategory(category?.id)
+        addToast({
+            title: "Category: " + category?.name,
+            description: "Delete successfully!!",
+            color: "danger",
+            timeout: 3000,
+            shouldShowTimeoutProgess: true
+        })
         handleClose()
     }
 

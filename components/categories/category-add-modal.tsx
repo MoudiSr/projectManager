@@ -31,13 +31,6 @@ const CategoryAddModal = ({ open, setOpen }: {
     setOpen(false)
     setAlert(false)
     onOpenChange()
-    addToast({
-      title: "Category: "+name,
-      description: "Added successfully!!",
-      color: "success",
-      timeout: 3000,
-      shouldShowTimeoutProgess: true
-    })
     setName("")
   }
 
@@ -48,6 +41,13 @@ const CategoryAddModal = ({ open, setOpen }: {
     if (name.replaceAll(" ", "") !== "") {
       setIsLoading(true)
       const result = await addCategory(name)
+      addToast({
+        title: "Category: " + name,
+        description: "Added successfully!!",
+        color: "success",
+        timeout: 3000,
+        shouldShowTimeoutProgess: true
+      })
       handleClose()
     } else {
       setAlert(true)

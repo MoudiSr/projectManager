@@ -41,13 +41,6 @@ import { Project } from "./projects-table";
       setOpen(false)
       setAlert(false)
       onOpenChange()
-      addToast({
-        title: "Project: " + name,
-        description: "Edited successfully!!",
-        color: "warning",
-        timeout: 3000,
-        shouldShowTimeoutProgess: true
-      })
       setName("")
       setDescription("")
       setCategory(undefined)
@@ -65,6 +58,13 @@ import { Project } from "./projects-table";
       if (name.replaceAll(" ", "") !== "" && description.replaceAll(" ", "") !== "") {
         setIsLoading(true)
         const updatedProject = await editProject(project?.id, name, description, category, project?.category, dateRange?.start.toString(), dateRange?.end.toString()) 
+        addToast({
+          title: "Project: " + name,
+          description: "Edited successfully!!",
+          color: "warning",
+          timeout: 3000,
+          shouldShowTimeoutProgess: true
+        })
         handleClose()
       } else {
         setAlert(true)
@@ -92,7 +92,7 @@ import { Project } from "./projects-table";
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">Add Project</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">Edit Project</ModalHeader>
                 <ModalBody>
                   <Alert title="Fill all fields" isVisible={alert} color="danger" />
                   <Input label="Project" variant="flat" value={name} onChange={e => setName(e.target.value)} isRequired isClearable />

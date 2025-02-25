@@ -34,13 +34,6 @@ const TaskAddModal = ({ open, setOpen, project }: {
         setOpen(false)
         setAlert(false)
         onOpenChange()
-        addToast({
-            title: "Task: " + name,
-            description: "Added successfully!!",
-            color: "success",
-            timeout: 3000,
-            shouldShowTimeoutProgess: true
-          })
         setName("")
         setCost(0)
         setTimeNeeded(0)
@@ -56,6 +49,13 @@ const TaskAddModal = ({ open, setOpen, project }: {
         if (name.replaceAll(" ", "") !== "" && cost !== 0 && timeNeeded !== 0) {
             setIsLoading(true)
             const task = await addTask(project, name, cost, timeNeeded)
+            addToast({
+                title: "Task: " + name,
+                description: "Added successfully!!",
+                color: "success",
+                timeout: 3000,
+                shouldShowTimeoutProgess: true
+              })
             handleClose()
         } else {
             setAlert(true)

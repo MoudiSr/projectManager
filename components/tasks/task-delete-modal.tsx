@@ -34,6 +34,11 @@ const TaskDeleteModal = ({ open, setOpen, task, project }: {
         setIsLoading(false)
         setOpen(false)
         onOpenChange()
+    }
+
+    const handleSubmit = async () => {
+        setIsLoading(true)
+        const result = await deleteTask(task, project)
         addToast({
             title: "Task: " + task?.name,
             description: "Deleted successfully!!",
@@ -41,11 +46,6 @@ const TaskDeleteModal = ({ open, setOpen, task, project }: {
             timeout: 3000,
             shouldShowTimeoutProgess: true
         })
-    }
-
-    const handleSubmit = async () => {
-        setIsLoading(true)
-        const result = await deleteTask(task, project)
         handleClose()
     }
 
