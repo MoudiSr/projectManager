@@ -38,7 +38,7 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased w-[100vw]",
           fontSans.variable,
         )}
       >
@@ -46,7 +46,7 @@ export default function RootLayout({
           <SidebarProvider>
             <SiteDialog />
             <SidebarInset>
-              <div className="relative flex flex-col h-screen">
+              <div className="relative flex flex-col h-screen w-[100vw] md:w-full">
                 <SiteNavbar />
                 <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
                   {children}

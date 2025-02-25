@@ -8,7 +8,8 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem
+    SidebarMenuItem,
+    useSidebar
 } from "@/components/ui/sidebar"
 import { ChartNoAxesGantt, Folders, ChartNoAxesCombined, Layers2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
@@ -16,6 +17,8 @@ import { Link } from "@heroui/link"
 import { usePathname } from "next/navigation"
 
 export default function SiteDialog() {
+    const { toggleSidebar } = useSidebar()
+
     const corporation = {
         name: "Webesters",
         icon: ChartNoAxesGantt
@@ -73,7 +76,7 @@ export default function SiteDialog() {
                                         (path === "/" && route.url === "/") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                             : (path === "/projects" && route.url === "/projects") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                                 : (path === "/categories" && route.url === "/categories") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
-                                                    : ""}>
+                                                    : ""} onClick={() => toggleSidebar()}>
                                         <Link href={route.url}>
                                             <route.icon className="size-4 mr-1" />
                                             <span className="text-sm">{route.name}</span>
