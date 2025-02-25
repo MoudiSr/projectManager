@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  numOfItems Int
+  projects Project[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  name String
+  status String
+  cost Float
+  timeNeeded Int @default(1)
+  projectId Int
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String
+  price Float
+  progress Float
+  status String
+  startDate DateTime
+  endDate DateTime
+  categoryId Int
+  tasks Task[]
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}

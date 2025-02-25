@@ -1,0 +1,74 @@
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Input,
+  Alert,
+} from "@heroui/react";
+import { useEffect, useState } from "react";
+import { addCategory } from "@/actions/categories"
+
+const CategoryAddModal = ({ open, setOpen }: {
+  open: boolean,
+  setOpen: (value: boolean) => void
+}) => {
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    if (open) onOpen()
+  }, [open])
+
+  const handleClose = () => {
+    setOpen(false)
+    setAlert(false)
+    onOpenChange()
+  }
+
+  const [name, setName] = useState("")
+  const [alert, setAlert] = useState(false)
+
+  const handleSubmit = async () => {
+    if (name.replaceAll(" ", "") !== "") {
+      handleClose()
+      const result = await addCategory(name)
+    } else {
+      setAlert(true)
+      setTimeout(() => {
+        setAlert(false)
+      }, 1000)
+    }
+  }
+
+  return (
+    <>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={handleClose} placement="center">
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Add Category</ModalHeader>
+              <ModalBody>
+                <Alert title="Fill all fields" isVisible={alert} color="danger" />
+                <Input label="Category" variant="flat" onChange={e => setName(e.target.value)} isRequired isClearable />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success" onPress={handleSubmit}>
+                  Submit
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+export default CategoryAddModal
