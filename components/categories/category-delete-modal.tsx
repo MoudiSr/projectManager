@@ -25,15 +25,18 @@ const CategoryDeleteModal = ({ open, setOpen, category }: {
         if (open) onOpen()
     }, [open])
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleClose = () => {
+        setIsLoading(false)
         setOpen(false)
         onOpenChange()
     }
 
     const handleSubmit = async () => {
-        handleClose()
-        console.log(category?.id)
+        setIsLoading(true)
         const result = await deleteCategory(category?.id)
+        handleClose()
     }
 
     return (

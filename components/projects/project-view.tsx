@@ -48,11 +48,13 @@ const ProjectView = ({ project, tasks, categories }: {
   }, [])
 
   const router = useRouter()
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false)
 
   const handleDelete = async () => {
     if (verfificationText === "Delete my project") {
+      setIsLoadingDelete(true)
       const deletedProject = await deleteProject(project)
-      console.log(deleteProject)
+      setIsLoadingDelete(false)
       router.push("/projects")
     }
   }
@@ -62,16 +64,28 @@ const ProjectView = ({ project, tasks, categories }: {
 
   const [currentTask, setCurrentTask] = useState<Task | null>(null)
 
+  const [isLoadingTask, setIsLoadingTask] = useState(false)
+
   const handleFinishTask = async (task: Task) => {
+    setIsLoadingTask(true)
     const updatedTask = await finishTask(task, project)
+    setIsLoadingTask(false)
   }
+
+  const [isLoadingFinishAll, setIsLoadingFinishAll] = useState(false)
 
   const handleFinishAll = async () => {
+    setIsLoadingFinishAll(true)
     const updatedProject = await finishAllTasks(project)
+    setIsLoadingFinishAll(false)
   }
 
+  const [isLoadingCancelAll, setIsLoadingCancelAll] = useState(false)
+
   const handleCancelAll = async () => {
+    setIsLoadingCancelAll(true)
     const updatedProject = await cancelAllTasks(project)
+    setIsLoadingCancelAll(false)
   }
 
   const [openEditDetails, setOpenEditDetails] = useState(false)
@@ -88,10 +102,10 @@ const ProjectView = ({ project, tasks, categories }: {
             </div>
             <div className="flex gap-x-2 items-center">
               {project?.status === "Pending" && <Tooltip content="Finish" showArrow>
-                <Button isIconOnly color="success" size="sm" startContent={<Check />} onPress={() => handleFinishAll()}></Button>
+                <Button isIconOnly color="success" size="sm" startContent={!isLoadingFinishAll ? <Check /> : <></>} onPress={() => handleFinishAll()} isLoading={isLoadingFinishAll}></Button>
               </Tooltip>}
               <Tooltip content="Cancel" showArrow>
-                <Button isIconOnly color="danger" size="sm" startContent={<X />} onPress={() => handleCancelAll()}></Button>
+                <Button isIconOnly color="danger" size="sm" startContent={!isLoadingCancelAll ? <X /> : <></>} onPress={() => handleCancelAll()} isLoading={isLoadingCancelAll}></Button>
               </Tooltip>
               <Dropdown>
                 <DropdownTrigger>
@@ -180,7 +194,7 @@ const ProjectView = ({ project, tasks, categories }: {
                       </div>
                       <Chip className={`rounded-sm ${task.status === "Pending" ? "text-warning" : task.status === "Done" ? "text-success" : "text-primary"}`} color={task.status === "Pending" ? "warning" : task.status === "Done" ? "success" : "primary"} variant="dot">{task.status}</Chip>
                       <Separator />
-                      <Button color="success" startContent={<Check />} isDisabled={task.status !== "Pending"} onPress={() => handleFinishTask(task)}></Button>
+                      <Button color="success" startContent={<Check />} isDisabled={task.status !== "Pending"} onPress={() => handleFinishTask(task)} isLoading={isLoadingTask}></Button>
                     </div>
                   </div>
                 </div>
@@ -197,7 +211,7 @@ const ProjectView = ({ project, tasks, categories }: {
           </div>
           <span className="text-sm text-default-900">If yes, type <span className="text-danger">Delete my project</span> and click the button.</span>
           <Input placeholder="Delete my project" onChange={e => setVerificationText(e.target.value)} variant="faded" label="Type the verification text" />
-          <Button color="danger" radius="sm" variant="flat" isDisabled={verfificationText !== "Delete my project"} onPress={() => handleDelete()}>Delete Project</Button>
+          <Button color="danger" radius="sm" variant="flat" isDisabled={verfificationText !== "Delete my project"} onPress={() => handleDelete()} isLoading={isLoadingDelete}>Delete Project</Button>
         </section>
       </div >
       <ProjectEditModal open={openEditDetails} setOpen={setOpenEditDetails} categories={categories} project={project} />

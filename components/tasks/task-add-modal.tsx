@@ -26,7 +26,10 @@ const TaskAddModal = ({ open, setOpen, project }: {
         if (open) onOpen()
     }, [open])
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleClose = () => {
+        setIsLoading(false)
         setOpen(false)
         setName("")
         setCost(0)
@@ -43,6 +46,7 @@ const TaskAddModal = ({ open, setOpen, project }: {
 
     const handleSubmit = async () => {
         if (name.replaceAll(" ", "") !== "" && cost !== 0 && timeNeeded !== 0) {
+            setIsLoading(true)
             const task = await addTask(project, name, cost, timeNeeded)
             handleClose()
         } else {
@@ -70,7 +74,7 @@ const TaskAddModal = ({ open, setOpen, project }: {
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
-                                <Button color="success" onPress={handleSubmit}>
+                                <Button color="success" onPress={handleSubmit} isLoading={isLoading}>
                                     Submit
                                 </Button>
                             </ModalFooter>

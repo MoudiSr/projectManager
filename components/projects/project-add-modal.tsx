@@ -34,6 +34,7 @@ import { CalendarDate, getLocalTimeZone, parseDate, today } from "@international
     }, [open])
   
     const handleClose = () => {
+      setIsLoading(false)
       setOpen(false)
       setName("")
       setDescription("")
@@ -52,6 +53,7 @@ import { CalendarDate, getLocalTimeZone, parseDate, today } from "@international
   
     const handleSubmit = async () => {
       if (name.replaceAll(" ", "") !== "" && description.replaceAll(" ", "") !== "" && category !== undefined && dateRange !== null) {
+        setIsLoading(true)
         const project = await addProject(name, description, category, dateRange?.start.toString(), dateRange?.end.toString()) 
         handleClose()
       } else {
@@ -61,7 +63,8 @@ import { CalendarDate, getLocalTimeZone, parseDate, today } from "@international
         }, 1000)
       }
     }
-  
+    
+    const [isLoading, setIsLoading] = useState(false)
   
     return (
       <>
@@ -85,7 +88,7 @@ import { CalendarDate, getLocalTimeZone, parseDate, today } from "@international
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="success" onPress={handleSubmit}>
+                  <Button color="success" onPress={handleSubmit} isLoading={isLoading}>
                     Submit
                   </Button>
                 </ModalFooter>

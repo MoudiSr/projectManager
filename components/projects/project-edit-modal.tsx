@@ -32,8 +32,11 @@ import { Project } from "./projects-table";
     useEffect(() => {
       if (open) onOpen()
     }, [open])
+
+    const [isLoading, setIsLoading] = useState(false)
   
     const handleClose = () => {
+      setIsLoading(false)
       setOpen(false)
       setName("")
       setDescription("")
@@ -52,6 +55,7 @@ import { Project } from "./projects-table";
   
     const handleSubmit = async () => {
       if (name.replaceAll(" ", "") !== "" && description.replaceAll(" ", "") !== "") {
+        setIsLoading(true)
         const updatedProject = await editProject(project?.id, name, description, category, project?.category, dateRange?.start.toString(), dateRange?.end.toString()) 
         handleClose()
       } else {
@@ -99,7 +103,7 @@ import { Project } from "./projects-table";
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="success" onPress={handleSubmit}>
+                  <Button color="success" onPress={handleSubmit} isLoading={isLoading}>
                     Submit
                   </Button>
                 </ModalFooter>

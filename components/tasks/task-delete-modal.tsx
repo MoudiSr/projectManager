@@ -1,3 +1,4 @@
+'use client'
 import {
     Modal,
     ModalContent,
@@ -9,7 +10,7 @@ import {
     Input,
     Alert,
 } from "@heroui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { deleteTask } from "@/actions/tasks";
 import { Project, Task } from "../projects/projects-table";
 
@@ -26,15 +27,18 @@ const TaskDeleteModal = ({ open, setOpen, task, project }: {
         if (open) onOpen()
     }, [open])
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleClose = () => {
+        setIsLoading(false)
         setOpen(false)
         onOpenChange()
     }
 
     const handleSubmit = async () => {
-        handleClose()
+        setIsLoading(true)
         const result = await deleteTask(task, project)
-        console.log(result)
+        handleClose()
     }
 
     return (
@@ -52,7 +56,7 @@ const TaskDeleteModal = ({ open, setOpen, task, project }: {
                                     <Button color="danger" variant="light" onPress={onClose}>
                                         Close
                                     </Button>
-                                    <Button color="danger" onPress={handleSubmit}>
+                                    <Button color="danger" onPress={handleSubmit} isLoading={isLoading}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

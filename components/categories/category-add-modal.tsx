@@ -23,7 +23,10 @@ const CategoryAddModal = ({ open, setOpen }: {
     if (open) onOpen()
   }, [open])
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleClose = () => {
+    setIsLoading(false)
     setOpen(false)
     setAlert(false)
     onOpenChange()
@@ -34,8 +37,9 @@ const CategoryAddModal = ({ open, setOpen }: {
 
   const handleSubmit = async () => {
     if (name.replaceAll(" ", "") !== "") {
-      handleClose()
+      setIsLoading(true)
       const result = await addCategory(name)
+      handleClose()
     } else {
       setAlert(true)
       setTimeout(() => {
@@ -59,7 +63,7 @@ const CategoryAddModal = ({ open, setOpen }: {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success" onPress={handleSubmit}>
+                <Button color="success" onPress={handleSubmit} isLoading={isLoading}>
                   Submit
                 </Button>
               </ModalFooter>
