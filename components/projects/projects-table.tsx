@@ -144,16 +144,23 @@ const ProductsTable = ({ items = [], categories = [] }: {
                                                         {getKeyValue(item, columnKey)}
                                                     </Chip>
                                                     : columnKey === "id" ?
-                                                        <Link href={`/projects/view/${item.id}`}>
-                                                            <Button color="secondary" variant="shadow" className="rounded-md" isIconOnly startContent={<Eye className="size-5" />}></Button>
-                                                        </Link>
+                                                        <Button
+                                                            color="secondary"
+                                                            variant="shadow"
+                                                            className="rounded-md"
+                                                            isIconOnly
+                                                            as={Link}
+                                                            href={`/projects/view/${item.id}`}
+                                                            startContent={<Eye className="size-5" />}>
+
+                                                        </Button>
                                                         : columnKey === "startDate" ?
                                                             <div className="grid gap-y-2">
-                                                                <Chip size="sm" className="bg-foreground-100" radius="sm">{item.startDate.toDateString()}</Chip>
-                                                                <Separator className="w-28"/>
-                                                                <Chip size="sm" className="bg-foreground-100" radius="sm">{item.endDate.toDateString()}</Chip>
+                                                                <Chip size="sm" className="bg-foreground-200" radius="sm">{item.startDate.toDateString()}</Chip>
+                                                                <Separator className="w-28" />
+                                                                <Chip size="sm" className="bg-foreground-200" radius="sm">{item.endDate.toDateString()}</Chip>
                                                             </div>
-                                                        : getKeyValue(item, columnKey)
+                                                            : getKeyValue(item, columnKey)
                             }</TableCell>}
                         </TableRow>
                     )}
