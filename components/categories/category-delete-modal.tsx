@@ -8,6 +8,7 @@ import {
     useDisclosure,
     Input,
     Alert,
+    addToast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { deleteCategory } from "@/actions/categories"
@@ -31,6 +32,13 @@ const CategoryDeleteModal = ({ open, setOpen, category }: {
         setIsLoading(false)
         setOpen(false)
         onOpenChange()
+        addToast({
+            title: "Category: "+category?.name,
+            description: "Delete successfully!!",
+            color: "danger",
+            timeout: 3000,
+            shouldShowTimeoutProgess: true
+        })
     }
 
     const handleSubmit = async () => {
@@ -54,7 +62,7 @@ const CategoryDeleteModal = ({ open, setOpen, category }: {
                                     <Button color="danger" variant="light" onPress={onClose}>
                                         Close
                                     </Button>
-                                    <Button color="danger" onPress={handleSubmit}>
+                                    <Button color="danger" onPress={handleSubmit} isLoading={isLoading}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

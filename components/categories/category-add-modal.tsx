@@ -8,6 +8,7 @@ import {
   useDisclosure,
   Input,
   Alert,
+  addToast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { addCategory } from "@/actions/categories"
@@ -30,6 +31,14 @@ const CategoryAddModal = ({ open, setOpen }: {
     setOpen(false)
     setAlert(false)
     onOpenChange()
+    addToast({
+      title: "Category: "+name,
+      description: "Added successfully!!",
+      color: "success",
+      timeout: 3000,
+      shouldShowTimeoutProgess: true
+    })
+    setName("")
   }
 
   const [name, setName] = useState("")
@@ -63,7 +72,7 @@ const CategoryAddModal = ({ open, setOpen }: {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success" onPress={handleSubmit} isLoading={isLoading}>
+                <Button color="success" onPress={handleSubmit} isLoading={isLoading} >
                   Submit
                 </Button>
               </ModalFooter>

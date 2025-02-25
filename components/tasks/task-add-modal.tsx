@@ -8,7 +8,8 @@ import {
     useDisclosure,
     Input,
     Alert,
-    NumberInput
+    NumberInput,
+    addToast
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { addTask } from "@/actions/tasks"
@@ -31,11 +32,18 @@ const TaskAddModal = ({ open, setOpen, project }: {
     const handleClose = () => {
         setIsLoading(false)
         setOpen(false)
+        setAlert(false)
+        onOpenChange()
+        addToast({
+            title: "Task: " + name,
+            description: "Added successfully!!",
+            color: "success",
+            timeout: 3000,
+            shouldShowTimeoutProgess: true
+          })
         setName("")
         setCost(0)
         setTimeNeeded(0)
-        setAlert(false)
-        onOpenChange()
     }
 
     const [name, setName] = useState("")

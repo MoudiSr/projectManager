@@ -19,7 +19,8 @@ import {
   DropdownMenu,
   Calendar,
   RangeCalendar,
-  DropdownItem
+  DropdownItem,
+  addToast
 } from "@heroui/react";
 import { SquarePen, CirclePlus, Delete, X, Check, CheckCheck } from "lucide-react"
 import { today, getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -55,6 +56,13 @@ const ProjectView = ({ project, tasks, categories }: {
       setIsLoadingDelete(true)
       const deletedProject = await deleteProject(project)
       setIsLoadingDelete(false)
+      addToast({
+        title: "Project: " + project?.name,
+        description: "Deleted successfully!!",
+        color: "danger",
+        timeout: 3000,
+        shouldShowTimeoutProgess: true
+      })
       router.push("/projects")
     }
   }
@@ -70,6 +78,13 @@ const ProjectView = ({ project, tasks, categories }: {
     setIsLoadingTask(true)
     const updatedTask = await finishTask(task, project)
     setIsLoadingTask(false)
+    addToast({
+      title: "Task: " + task.name,
+      description: "Done !!",
+      color: "success",
+      timeout: 3000,
+      shouldShowTimeoutProgess: true
+    })
   }
 
   const [isLoadingFinishAll, setIsLoadingFinishAll] = useState(false)
@@ -78,6 +93,13 @@ const ProjectView = ({ project, tasks, categories }: {
     setIsLoadingFinishAll(true)
     const updatedProject = await finishAllTasks(project)
     setIsLoadingFinishAll(false)
+    addToast({
+      title: "All tasks done",
+      description: "Success !!",
+      color: "success",
+      timeout: 3000,
+      shouldShowTimeoutProgess: true
+    })
   }
 
   const [isLoadingCancelAll, setIsLoadingCancelAll] = useState(false)
@@ -86,6 +108,13 @@ const ProjectView = ({ project, tasks, categories }: {
     setIsLoadingCancelAll(true)
     const updatedProject = await cancelAllTasks(project)
     setIsLoadingCancelAll(false)
+    addToast({
+      title: "All tasks deleted",
+      description: "Success",
+      color: "danger",
+      timeout: 3000,
+      shouldShowTimeoutProgess: true
+    })
   }
 
   const [openEditDetails, setOpenEditDetails] = useState(false)
@@ -194,7 +223,7 @@ const ProjectView = ({ project, tasks, categories }: {
                       </div>
                       <Chip className={`rounded-sm ${task.status === "Pending" ? "text-warning" : task.status === "Done" ? "text-success" : "text-primary"}`} color={task.status === "Pending" ? "warning" : task.status === "Done" ? "success" : "primary"} variant="dot">{task.status}</Chip>
                       <Separator />
-                      <Button color="success" startContent={<Check />} isDisabled={task.status !== "Pending"} onPress={() => handleFinishTask(task)} isLoading={isLoadingTask}></Button>
+                      <Button color="success" startContent={isLoadingTask && currentTask?.id === task.id ? <></> : <Check />} isDisabled={task.status !== "Pending"} onPress={() => {handleFinishTask(task); setCurrentTask(task)}} isLoading={isLoadingTask && currentTask?.id === task.id}></Button>
                     </div>
                   </div>
                 </div>

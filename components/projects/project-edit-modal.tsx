@@ -13,6 +13,7 @@ import {
     DateRangePicker,
     RangeValue,
     DateValue,
+    addToast,
   } from "@heroui/react";
   import { useEffect, useState } from "react";
   import { Category } from "../categories/categories-table";
@@ -38,12 +39,19 @@ import { Project } from "./projects-table";
     const handleClose = () => {
       setIsLoading(false)
       setOpen(false)
+      setAlert(false)
+      onOpenChange()
+      addToast({
+        title: "Project: " + name,
+        description: "Edited successfully!!",
+        color: "warning",
+        timeout: 3000,
+        shouldShowTimeoutProgess: true
+      })
       setName("")
       setDescription("")
       setCategory(undefined)
       setDateRange(null)
-      setAlert(false)
-      onOpenChange()
     }
   
     const [name, setName] = useState("")

@@ -9,6 +9,7 @@ import {
     useDisclosure,
     Input,
     Alert,
+    addToast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { deleteTask } from "@/actions/tasks";
@@ -33,6 +34,13 @@ const TaskDeleteModal = ({ open, setOpen, task, project }: {
         setIsLoading(false)
         setOpen(false)
         onOpenChange()
+        addToast({
+            title: "Task: " + task?.name,
+            description: "Deleted successfully!!",
+            color: "danger",
+            timeout: 3000,
+            shouldShowTimeoutProgess: true
+        })
     }
 
     const handleSubmit = async () => {
