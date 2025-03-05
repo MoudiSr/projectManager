@@ -36,6 +36,7 @@ import { cancelAllTasks, deleteTask, finishAllTasks, finishTask } from "@/action
 import TaskDeleteModal from "../tasks/task-delete-modal";
 import ProjectEditModal from "./project-edit-modal";
 import { Category } from "../categories/categories-table";
+import { useSession } from "next-auth/react";
 
 const ProjectView = ({ project, tasks, categories }: {
   project: Project | null | undefined,
@@ -119,6 +120,10 @@ const ProjectView = ({ project, tasks, categories }: {
 
   const [openEditDetails, setOpenEditDetails] = useState(false)
 
+  const { data: session } = useSession()
+
+  const allowed = session?.user.role === "user"
+
   return (
     <div>
       <div className="flex flex-col gap-y-6 mb-8">
@@ -131,10 +136,10 @@ const ProjectView = ({ project, tasks, categories }: {
             </div>
             <div className="flex gap-x-2 items-center">
               {project?.status === "Pending" && <Tooltip content="Finish" showArrow>
-                <Button isIconOnly color="success" size="sm" startContent={!isLoadingFinishAll ? <Check /> : <></>} onPress={() => handleFinishAll()} isLoading={isLoadingFinishAll}></Button>
+                <Button isIconOnly color="success" size="sm" startContent={!isLoadingFinishAll ? <Check /> : <></>} isDisabled={allowed} onPress={() => handleFinishAll()} isLoading={isLoadingFinishAll}></Button>
               </Tooltip>}
               <Tooltip content="Cancel" showArrow>
-                <Button isIconOnly color="danger" size="sm" startContent={!isLoadingCancelAll ? <X /> : <></>} onPress={() => handleCancelAll()} isLoading={isLoadingCancelAll}></Button>
+                <Button isIconOnly color="danger" size="sm" startContent={!isLoadingCancelAll ? <X /> : <></>} isDisabled={allowed} onPress={() => handleCancelAll()} isLoading={isLoadingCancelAll}></Button>
               </Tooltip>
               <Dropdown>
                 <DropdownTrigger>
@@ -157,7 +162,7 @@ const ProjectView = ({ project, tasks, categories }: {
             <div className="flex items-center gap-x-3">
               <h1 className="text-xl">Details</h1>
               <Tooltip content="Edit details" color="primary" showArrow>
-                <Button isIconOnly startContent={<SquarePen className="size-4" />} size="sm" variant="shadow" color="warning" onPress={() => setOpenEditDetails(true)}></Button>
+                <Button isIconOnly startContent={<SquarePen className="size-4" />} size="sm" variant="shadow" color="warning" isDisabled={allowed} onPress={() => setOpenEditDetails(true)}></Button>
               </Tooltip>
             </div>
             <div className="block p-2 bg-default-50">
@@ -198,7 +203,7 @@ const ProjectView = ({ project, tasks, categories }: {
           <div className="flex items-center mb-3 gap-x-3">
             <h1 className="text-xl">Tasks</h1>
             <Tooltip content="Add task" color="primary" showArrow>
-              <Button isIconOnly startContent={<CirclePlus className="size-4" />} size="sm" variant="shadow" color="success" onPress={() => setOpenTaskAdd(true)}></Button>
+              <Button isIconOnly startContent={<CirclePlus className="size-4" />} isDisabled={allowed} size="sm" variant="shadow" color="success" onPress={() => setOpenTaskAdd(true)}></Button>
             </Tooltip>
           </div>
           {tasks?.length !== 0 ?
@@ -208,7 +213,7 @@ const ProjectView = ({ project, tasks, categories }: {
                   <div className="flex flex-col p-3 gap-y-4 h-full">
                     <div className="flex items-center justify-between">
                       <h1 className="text-xl font-bold">Task {index + 1}</h1>
-                      <Button isIconOnly size="sm" variant="flat" color="danger" startContent={<X />} onPress={() => {
+                      <Button isIconOnly size="sm" variant="flat" color="danger" startContent={<X />} isDisabled={allowed} onPress={() => {
                         setOpenTaskDelete(true)
                         setCurrentTask(task)
                       }}></Button>
@@ -223,7 +228,7 @@ const ProjectView = ({ project, tasks, categories }: {
                       </div>
                       <Chip className={`rounded-sm ${task.status === "Pending" ? "text-warning" : task.status === "Done" ? "text-success" : "text-primary"}`} color={task.status === "Pending" ? "warning" : task.status === "Done" ? "success" : "primary"} variant="dot">{task.status}</Chip>
                       <Separator />
-                      <Button color="success" startContent={isLoadingTask && currentTask?.id === task.id ? <></> : <Check />} isDisabled={task.status !== "Pending"} onPress={() => {handleFinishTask(task); setCurrentTask(task)}} isLoading={isLoadingTask && currentTask?.id === task.id}></Button>
+                      <Button color="success" startContent={isLoadingTask && currentTask?.id === task.id ? <></> : <Check />} isDisabled={task.status !== "Pending" || allowed} onPress={() => {handleFinishTask(task); setCurrentTask(task)}} isLoading={isLoadingTask && currentTask?.id === task.id}></Button>
                     </div>
                   </div>
                 </div>
@@ -239,8 +244,8 @@ const ProjectView = ({ project, tasks, categories }: {
             <span className="text-lg">Are you sure you want to delete this project ?</span>
           </div>
           <span className="text-sm text-default-900">If yes, type <span className="text-danger">Delete my project</span> and click the button.</span>
-          <Input placeholder="Delete my project" onChange={e => setVerificationText(e.target.value)} variant="faded" label="Type the verification text" />
-          <Button color="danger" radius="sm" variant="flat" isDisabled={verfificationText !== "Delete my project"} onPress={() => handleDelete()} isLoading={isLoadingDelete}>Delete Project</Button>
+          <Input placeholder="Delete my project" isDisabled={allowed} onChange={e => setVerificationText(e.target.value)} variant="faded" label="Type the verification text" />
+          <Button color="danger" radius="sm" variant="flat" isDisabled={verfificationText !== "Delete my project" || allowed} onPress={() => handleDelete()} isLoading={isLoadingDelete}>Delete Project</Button>
         </section>
       </div >
       <ProjectEditModal open={openEditDetails} setOpen={setOpenEditDetails} categories={categories} project={project} />

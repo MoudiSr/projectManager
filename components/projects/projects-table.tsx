@@ -5,6 +5,7 @@ import { FolderPlus, Search, Trash2, Eye, PenLine } from "lucide-react";
 import { Category } from "@/components/categories/categories-table";
 import ProjectAddModal from "./project-add-modal";
 import { Separator } from "../ui/separator";
+import { useSession } from "next-auth/react";
 
 
 export interface Project {
@@ -92,6 +93,8 @@ const ProjectsTable = ({ items = [], categories = [] }: {
 
     const [currentProject, setCurrentProject] = useState<Project | null>(null)
 
+    const { data: session } = useSession()
+
     return (
         <div>
             <div className="flex gap-4 mb-8">
@@ -105,7 +108,7 @@ const ProjectsTable = ({ items = [], categories = [] }: {
                 />
 
                 <Tooltip content="Add project" placement="top-end" showArrow>
-                    <Button color="primary" isIconOnly startContent={<FolderPlus className="size-5" />} onPress={() => setAddOpen(true)}></Button>
+                    <Button color="primary" isIconOnly startContent={<FolderPlus className="size-5" />} isDisabled={session?.user.role === "user"} onPress={() => setAddOpen(true)}></Button>
                 </Tooltip>
             </div>
             <Table

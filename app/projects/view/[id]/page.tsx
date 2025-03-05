@@ -7,6 +7,7 @@ import { Task } from "@/components/projects/projects-table"
 const Page = async (props: { 
     params: Promise<{ id: string }>
  }) => {
+
     const response = await getProject(Number((await props.params).id))
     const project: Project | null | undefined = response.project
     const tasks: Task[] | undefined = response.tasks

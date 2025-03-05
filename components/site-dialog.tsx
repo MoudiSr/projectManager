@@ -11,13 +11,17 @@ import {
     SidebarMenuItem,
     useSidebar
 } from "@/components/ui/sidebar"
-import { ChartNoAxesGantt, Folders, ChartNoAxesCombined, Layers2 } from "lucide-react"
+import { ChartNoAxesGantt, Folders, ChartNoAxesCombined, Layers2, User, LogOut } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Link } from "@heroui/link"
 import { usePathname } from "next/navigation"
+import { signOut, useSession } from "next-auth/react"
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 
 export default function SiteDialog() {
     const { toggleSidebar } = useSidebar()
+    const { data: session } = useSession()
 
     const corporation = {
         name: "Webesters",
@@ -39,10 +43,17 @@ export default function SiteDialog() {
             name: "Categories",
             icon: Layers2,
             url: "/categories"
+        },
+        {
+            name: "Accounts",
+            icon: User,
+            url: "/accounts"
         }
     ]
 
     const path = usePathname()
+
+    const username = session?.user?.username || "Guest"
 
     return (
         <>
@@ -76,7 +87,8 @@ export default function SiteDialog() {
                                         (path === "/" && route.url === "/") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                             : (path === "/projects" && route.url === "/projects") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                                 : (path === "/categories" && route.url === "/categories") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
-                                                    : ""} onClick={() => toggleSidebar()}>
+                                                    : (path === "/accounts" && route.url === "/accounts") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
+                                                        : ""} onClick={() => toggleSidebar()}>
                                         <Link href={route.url}>
                                             <route.icon className="size-4 mr-1" />
                                             <span className="text-sm">{route.name}</span>
@@ -90,19 +102,25 @@ export default function SiteDialog() {
                 <SidebarFooter>
                     <SidebarMenu>
                         <SidebarMenuItem>
-                            <SidebarMenuButton
-                                size="lg"
-                                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                            >
-                                <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src="#" alt="mhmmd" />
-                                    <AvatarFallback className="rounded-lg">MH</AvatarFallback>
-                                </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">Mhmmd</span>
-                                    <span className="truncate text-xs">mhmmd@gmail.com</span>
-                                </div>
-                            </SidebarMenuButton>
+                            <Dropdown placement="right">
+                                <DropdownTrigger>
+                                    <SidebarMenuButton
+                                        size="lg"
+                                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                                    >
+                                        <Avatar className="h-8 w-8 rounded-lg">
+                                            <AvatarImage src="#" alt="mhmmd" />
+                                            <AvatarFallback className="rounded-lg">{(username.substring(0, 2)).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight">
+                                            <span className="truncate font-semibold">{username}</span>
+                                        </div>
+                                    </SidebarMenuButton>
+                                </DropdownTrigger>
+                                <DropdownMenu>
+                                    <DropdownItem key="1" startContent={<LogOut className="size-4"/>} onPress={() => signOut()}>Logout</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarFooter>

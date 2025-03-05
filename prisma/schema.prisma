@@ -45,3 +45,10 @@ model Project {
 
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+  role String
+}

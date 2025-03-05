@@ -7,7 +7,6 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import SiteNavbar from "@/components/site-navbar";
 import SiteDialog from "@/components/site-dialog";
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -26,11 +25,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
   return (
 
     <html suppressHydrationWarning lang="en">
