@@ -122,7 +122,7 @@ const ProjectView = ({ project, tasks, categories }: {
 
   const { data: session } = useSession()
 
-  const allowed = session?.user.role === "user"
+  const allowed = session !== undefined && session?.user !== undefined ? session?.user.role === "user" : true
 
   return (
     <div>
