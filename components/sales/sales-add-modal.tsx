@@ -16,16 +16,17 @@ import {
   RangeValue,
   DateValue,
   addToast,
+  NumberInput,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { Category } from "../categories/categories-table";
-import { addProject } from "@/actions/projects";
 import { CalendarDate, getLocalTimeZone, parseDate, today } from "@internationalized/date";
+import { Project } from "../projects/projects-table";
+import { addSale } from "@/actions/sales"
 
-const ProjectAddModal = ({ open, setOpen, categories }: {
+const SaleAddModal = ({ open, setOpen, projects }: {
   open: boolean,
   setOpen: (value: boolean) => void,
-  categories: Category[]
+  projects: Project[]
 }) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -39,32 +40,27 @@ const ProjectAddModal = ({ open, setOpen, categories }: {
     setOpen(false)
     setAlert(false)
     onOpenChange()
-    setName("")
-    setDescription("")
-    setCategory(undefined)
-    setDateRange(null)
+    setCustomerName("")
+    setCustomerPhone("")
+    setPrice(0)
+    setProject(undefined)
+    setSaleDate(null)
   }
 
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState<Category | undefined>(undefined)
-  const [dateRange, setDateRange] = useState<RangeValue<DateValue> | null>(null)
+  const [customerName, setCustomerName] = useState("")
+  const [customerPhone, setCustomerPhone] = useState("")
+  const [price, setPrice] = useState(0)
+  const [project, setProject] = useState<Project | undefined>(undefined)
+  const [saleDate, setSaleDate] = useState<DateValue | null>(null)
 
   const [alert, setAlert] = useState(false)
 
   const handleSubmit = async () => {
-    if (name.trim() !== "" && description.trim() !== "" && category !== undefined && category !== null && dateRange) {
+    if (customerName.trim() !== "" && customerPhone.trim() !== "" && project !== undefined && project !== null && saleDate !== null && price !== 0) {
       setIsLoading(true)
-      const project = await addProject(
-        name,
-        description,
-        category,
-        dateRange.start.toDate(getLocalTimeZone()).toISOString(),
-        dateRange.end.toDate(getLocalTimeZone()).toISOString()
-      )
-      console.log(project)
+      const newProject = await addSale(project, price, customerName, customerPhone, saleDate.toString())
       addToast({
-        title: "Project: " + name,
+        title: "Sale: " + project.name,
         description: "Added successfully!!",
         color: "success",
         timeout: 3000,
@@ -87,17 +83,19 @@ const ProjectAddModal = ({ open, setOpen, categories }: {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Add Project</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Add Sale</ModalHeader>
               <ModalBody>
                 <Alert title="Fill all fields" isVisible={alert} color="danger" />
-                <Input label="Project" variant="flat" onChange={e => setName(e.target.value)} isRequired isClearable />
-                <Input label="Description" variant="flat" onChange={e => setDescription(e.target.value)} isRequired isClearable />
-                <Select label="Category" isRequired>
-                  {categories?.map(category => (
-                    <SelectItem key={category.id} onPress={() => setCategory(category)}>{category.name}</SelectItem>
-                  ))}
+                <Select label="Project" isRequired>
+                    {projects.map(p => (
+                        <SelectItem key={p.id} onPress={() => setProject(p)}>{p.name}</SelectItem>
+                    ))}
                 </Select>
-                <DateRangePicker label="Start date" minValue={today(getLocalTimeZone())} onChange={setDateRange} />
+                <Input label="Cost" variant="flat" value={project === undefined ? "" : String(project.price)} isDisabled />
+                <NumberInput label="Price" variant="flat" onValueChange={setPrice} minValue={0} isRequired />
+                <Input label="Customer Name" variant="faded" isRequired onChange={e => setCustomerName(e.target.value)} />
+                <Input label="Customer Phone" variant="faded" isRequired onChange={e => setCustomerPhone(e.target.value)} />
+                <DatePicker label="Date" onChange={setSaleDate} isRequired />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
@@ -115,4 +113,4 @@ const ProjectAddModal = ({ open, setOpen, categories }: {
   );
 }
 
-export default ProjectAddModal
+export default SaleAddModal

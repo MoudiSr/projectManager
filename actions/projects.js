@@ -49,6 +49,7 @@ export const addProject = async (name, description, category, startDate, endDate
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { newProject }
     } catch (error) {
         return error
@@ -92,6 +93,7 @@ export const editProject = async (id, name, description, category, prevCategory,
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { newProject }
     } catch (error) {
         return error
@@ -146,6 +148,7 @@ export const deleteProject = async (project) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { deletedProject }
     } catch (error) {
         return error

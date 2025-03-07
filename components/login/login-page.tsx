@@ -4,9 +4,9 @@ import { Button } from "@heroui/button"
 import { Input } from "@heroui/input"
 import { useState } from "react"
 import { addToast, Alert } from "@heroui/react"
-import { redirect } from "next/navigation"
 import { Eye, EyeClosed } from "lucide-react"
 import bcrypt from "bcryptjs"
+import { useRouter } from "next/navigation"
 
 const LoginPage = () => {
 
@@ -15,6 +15,8 @@ const LoginPage = () => {
     const [alert, setAlert] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isVisible, setIsVisible] = useState(false)
+
+    const router = useRouter()
 
     const handleSubmit = async () => {
         setIsLoading(true)
@@ -38,7 +40,7 @@ const LoginPage = () => {
                 setAlert(false)
             }, 2000)
         } else {
-            redirect("/")
+            router.push("/")
         }
 
     }

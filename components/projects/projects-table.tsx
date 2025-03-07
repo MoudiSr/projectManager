@@ -108,7 +108,7 @@ const ProjectsTable = ({ items = [], categories = [] }: {
                 />
 
                 <Tooltip content="Add project" placement="top-end" showArrow>
-                    <Button color="primary" isIconOnly startContent={<FolderPlus className="size-5" />} isDisabled={session?.user.role === "user"} onPress={() => setAddOpen(true)}></Button>
+                    <Button color="primary" isIconOnly startContent={<FolderPlus className="size-5" />} isDisabled={session !== undefined && session?.user !== undefined ? session?.user.role === "user" : true} onPress={() => setAddOpen(true)}></Button>
                 </Tooltip>
             </div>
             <Table

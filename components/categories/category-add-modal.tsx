@@ -38,7 +38,7 @@ const CategoryAddModal = ({ open, setOpen }: {
   const [alert, setAlert] = useState(false)
 
   const handleSubmit = async () => {
-    if (name.replaceAll(" ", "") !== "") {
+    if (name.trim() !== "") {
       setIsLoading(true)
       const result = await addCategory(name)
       addToast({

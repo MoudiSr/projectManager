@@ -53,6 +53,7 @@ export const addTask = async (project, name, cost, timeNeeded) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { newTask }
     } catch (error) {
         return error
@@ -89,6 +90,7 @@ export const finishTask = async (task, project) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { updatedTask }
     } catch (error) {
         return error
@@ -131,6 +133,7 @@ export const deleteTask = async (task, project) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { deletedTask }
     } catch (error) {
         return error
@@ -161,6 +164,7 @@ export const finishAllTasks = async (project) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { updateProjectProgress }
     } catch (error) {
         return error
@@ -189,6 +193,7 @@ export const cancelAllTasks = async (project) => {
         revalidatePath("/")
         revalidatePath("/categories")
         revalidatePath("/projects")
+        revalidatePath("/sales")
         return { updateProjectProgress }
     } catch (error) {
         return error

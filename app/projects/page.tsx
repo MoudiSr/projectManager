@@ -8,7 +8,7 @@ const Page = async () => {
 
     return (
         <>
-            <ProjectsTable items={projects} categories={categories} />
+            {projects !== null && categories !== null && <ProjectsTable items={projects} categories={categories} />}
         </>
     )
 }

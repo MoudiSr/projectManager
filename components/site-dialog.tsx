@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
     useSidebar
 } from "@/components/ui/sidebar"
-import { ChartNoAxesGantt, Folders, ChartNoAxesCombined, Layers2, User, LogOut } from "lucide-react"
+import { ChartNoAxesGantt, Folders, ChartNoAxesCombined, Layers2, User, LogOut, BadgeDollarSign, LayoutPanelLeft, LayoutDashboard } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Link } from "@heroui/link"
 import { usePathname } from "next/navigation"
@@ -31,7 +31,7 @@ export default function SiteDialog() {
     const routes = [
         {
             name: "Dashboard",
-            icon: ChartNoAxesCombined,
+            icon: LayoutDashboard,
             url: "/"
         },
         {
@@ -48,6 +48,11 @@ export default function SiteDialog() {
             name: "Accounts",
             icon: User,
             url: "/accounts"
+        },
+        {
+            name: "Sales",
+            icon: ChartNoAxesCombined,
+            url: "/sales"
         }
     ]
 
@@ -88,7 +93,8 @@ export default function SiteDialog() {
                                             : (path === "/projects" && route.url === "/projects") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                                 : (path === "/categories" && route.url === "/categories") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
                                                     : (path === "/accounts" && route.url === "/accounts") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
-                                                        : ""} onClick={() => toggleSidebar()}>
+                                                        : (path === "/sales" && route.url === "/sales") ? "bg-secondary text-white hover:bg-secondary hover:text-white active:bg-secondary active:text-white"
+                                                            : ""} onClick={() => toggleSidebar()}>
                                         <Link href={route.url}>
                                             <route.icon className="size-4 mr-1" />
                                             <span className="text-sm">{route.name}</span>
@@ -118,7 +124,7 @@ export default function SiteDialog() {
                                     </SidebarMenuButton>
                                 </DropdownTrigger>
                                 <DropdownMenu>
-                                    <DropdownItem key="1" startContent={<LogOut className="size-4"/>} onPress={() => signOut()}>Logout</DropdownItem>
+                                    <DropdownItem key="1" startContent={<LogOut className="size-4" />} onPress={() => signOut()}>Logout</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </SidebarMenuItem>
