@@ -16,8 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Link } from "@heroui/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 export default function SiteDialog() {
     const { toggleSidebar } = useSidebar()
@@ -108,8 +107,8 @@ export default function SiteDialog() {
                 <SidebarFooter>
                     <SidebarMenu>
                         <SidebarMenuItem>
-                            <Dropdown placement="right">
-                                <DropdownTrigger>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
                                     <SidebarMenuButton
                                         size="lg"
                                         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -122,11 +121,11 @@ export default function SiteDialog() {
                                             <span className="truncate font-semibold">{username}</span>
                                         </div>
                                     </SidebarMenuButton>
-                                </DropdownTrigger>
-                                <DropdownMenu>
-                                    <DropdownItem key="1" startContent={<LogOut className="size-4" />} onPress={() => signOut()}>Logout</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="z-[999]">
+                                    <DropdownMenuItem onClick={() => signOut()}><LogOut className="size-4" /> Logout</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarFooter>
