@@ -46,3 +46,18 @@ export const addSale = async (project, price, customerName, customerPhone, saleD
         return { error: "Error adding sales!!" }
     }
 }
+
+export const deleteSale = async (id) => {
+    try {
+        const removedSale = await prisma.sale.delete({
+            where: {
+                id
+            }
+        })
+
+        revalidatePath("/sales")
+        return { removedSale }
+    } catch (error) {
+        return { error: "Error deleting sale." }
+    }
+}

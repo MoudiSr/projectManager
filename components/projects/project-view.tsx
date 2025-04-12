@@ -228,7 +228,7 @@ const ProjectView = ({ project, tasks, categories }: {
                       </div>
                       <Chip className={`rounded-sm ${task.status === "Pending" ? "text-warning" : task.status === "Done" ? "text-success" : "text-primary"}`} color={task.status === "Pending" ? "warning" : task.status === "Done" ? "success" : "primary"} variant="dot">{task.status}</Chip>
                       <Separator />
-                      <Button color="success" startContent={isLoadingTask && currentTask?.id === task.id ? <></> : <Check />} isDisabled={task.status !== "Pending" || allowed} onPress={() => {handleFinishTask(task); setCurrentTask(task)}} isLoading={isLoadingTask && currentTask?.id === task.id}></Button>
+                      <Button color="success" startContent={isLoadingTask && currentTask?.id === task.id ? "" : <Check />} isDisabled={task.status !== "Pending" || allowed} onPress={() => {handleFinishTask(task); setCurrentTask(task)}} isLoading={isLoadingTask && currentTask?.id === task.id}></Button>
                     </div>
                   </div>
                 </div>

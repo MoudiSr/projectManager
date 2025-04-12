@@ -1,7 +1,7 @@
 'use client';
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, getKeyValue, Input, Button, Selection, Tooltip, useDisclosure, Card, CardBody, CardHeader, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
 import { useCallback, useMemo, useState } from "react";
-import { Grid2x2Plus, Search, Trash2, Eye, User, UserPlus, EllipsisVertical } from "lucide-react";
+import { Search, Eye, User, UserPlus, EllipsisVertical } from "lucide-react";
 import UserAddModal from "./accounts-add-modal";
 import UserDeleteModal from "./accounts-delete-modal";
 import UserEditModal from "./accounts-edit-modal";
@@ -104,31 +104,35 @@ const AccountsTable = ({ items = [] }: {
                 <TableBody items={sortedItems}>
                     {(item) => (
                         <TableRow key={item.id}>
-                            {(columnKey) => columnKey === "role" ? (
+                            {(columnKey) => columnKey === "id" ?
                                 <TableCell>
-                                    <Chip color={getKeyValue(item, columnKey) === "admin" ? "danger" : getKeyValue(item, columnKey) === "editor" ? "warning" : "secondary"}>
-                                        {getKeyValue(item, columnKey)}
-                                    </Chip>
+                                    {item.id}
                                 </TableCell>
-                            ) : columnKey === "actions" ? (
-                                <TableCell>
-                                    <Dropdown>
-                                        <DropdownTrigger>
-                                            <Button isIconOnly size="sm" variant="faded">
-                                                <EllipsisVertical />
-                                            </Button>
-                                        </DropdownTrigger>
-                                        <DropdownMenu>
-                                            <DropdownItem key="edit" onPress={() => {setCurrentItem(item); setEditOpen(true)}}>
-                                                Edit
-                                            </DropdownItem>
-                                            <DropdownItem key="delete" onPress={() => {setCurrentItem(item); setDeleteOpen(true)}}>
-                                                Delete
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </TableCell>
-                            ) : <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                                : columnKey === "role" ? (
+                                    <TableCell>
+                                        <Chip color={getKeyValue(item, columnKey) === "admin" ? "danger" : getKeyValue(item, columnKey) === "editor" ? "warning" : "secondary"}>
+                                            {getKeyValue(item, columnKey)}
+                                        </Chip>
+                                    </TableCell>
+                                ) : columnKey === "actions" ? (
+                                    <TableCell>
+                                        <Dropdown>
+                                            <DropdownTrigger>
+                                                <Button isIconOnly size="sm" variant="faded">
+                                                    <EllipsisVertical />
+                                                </Button>
+                                            </DropdownTrigger>
+                                            <DropdownMenu>
+                                                <DropdownItem key="edit" onPress={() => { setCurrentItem(item); setEditOpen(true) }}>
+                                                    Edit
+                                                </DropdownItem>
+                                                <DropdownItem key="delete" onPress={() => { setCurrentItem(item); setDeleteOpen(true) }}>
+                                                    Delete
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </TableCell>
+                                ) : <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>

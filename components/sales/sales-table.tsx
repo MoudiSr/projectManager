@@ -1,12 +1,13 @@
 'use client';
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell, getKeyValue, Input, Button, Tooltip, Chip, CircularProgress, Link } from "@heroui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FolderPlus, Search, Trash2, Eye, PenLine, BadgePlus } from "lucide-react";
+import { FolderPlus, Search, Trash2, Eye, PenLine, BadgePlus, Trash } from "lucide-react";
 import { Category } from "@/components/categories/categories-table";
 import { Separator } from "../ui/separator";
 import { useSession } from "next-auth/react";
 import { Project } from "@/components/projects/projects-table";
 import SaleAddModal from "./sales-add-modal";
+import SaleDeleteModal from "./sales-delete-modal";
 
 
 export interface Sale {
@@ -83,6 +84,7 @@ const SalesTable = ({ items = [], projects = [] }: {
     }, [])
 
     const [currentItem, setCurrentItem] = useState<Sale | null>(null)
+    const [deleteOpen, setDeleteOpen] = useState(false)
 
     const { data: session } = useSession()
 
@@ -124,16 +126,27 @@ const SalesTable = ({ items = [], projects = [] }: {
                                         {getKeyValue(item, columnKey)} $
                                     </Chip>
                                     : columnKey === "id" ?
-                                        <Button
-                                            color="secondary"
-                                            variant="shadow"
-                                            className="rounded-md"
-                                            isIconOnly
-                                            as={Link}
-                                            href={`/projects/view/${item.project.id}`}
-                                            startContent={<Eye className="size-5" />}>
+                                        <div className="flex gap-2">
+                                            <Button
+                                                color="secondary"
+                                                variant="shadow"
+                                                className="rounded-md"
+                                                isIconOnly
+                                                as={Link}
+                                                href={`/projects/view/${item.project.id}`}
+                                                startContent={<Eye className="size-5" />}>
 
-                                        </Button>
+                                            </Button>
+                                            <Button
+                                                color="danger"
+                                                variant="shadow"
+                                                className="rounded-md"
+                                                isIconOnly
+                                                onPress={() => {setCurrentItem(item);setDeleteOpen(true)}}
+                                                startContent={<Trash className="size-5" />}>
+
+                                            </Button>
+                                        </div>
                                         : columnKey === "saleDate" ?
                                             <Chip size="sm" className="bg-foreground-200" radius="sm">
                                                 {item.saleDate.toISOString().split("T")[0]}
@@ -153,6 +166,7 @@ const SalesTable = ({ items = [], projects = [] }: {
                 </TableBody>
             </Table>
             <SaleAddModal open={addOpen} setOpen={setAddOpen} projects={projects} />
+            <SaleDeleteModal open={deleteOpen} setOpen={setDeleteOpen} selectedSale={currentItem} />
         </div>
     );
 };
